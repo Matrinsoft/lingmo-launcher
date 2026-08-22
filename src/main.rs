@@ -10,12 +10,12 @@ use localize::localize;
 
 use crate::config::VERSION;
 
-fn main() -> cosmic::iced::Result {
+fn main() -> lingmo::iced::Result {
     init_logging();
 
     info!(
         "cosmic-launcher ({})",
-        <app::CosmicLauncher as cosmic::Application>::APP_ID
+        <app::CosmicLauncher as lingmo::Application>::APP_ID
     );
     info!("Version: {} ({})", VERSION, config::profile());
 

@@ -1,4 +1,4 @@
-﻿[package]
+[package]
 name = "cosmic-launcher"
 version = "1.0.12"
 authors = ["Ashley Wulber <ashley@system76.com>"]
@@ -18,7 +18,7 @@ i18n-embed = { version = "0.16", features = [
     "desktop-requester",
 ] }
 i18n-embed-fl = "0.10"
-libcosmic = { git = "https://github.com/Matrinsoft/libcosmic/", features = [
+liblingmo = { git = "https://github.com/Matrinsoft/liblingmo/", features = [
     "autosize",
     "dbus-config",
     "winit",
@@ -48,10 +48,10 @@ clap = { version = "4.5.56", features = ["derive"] }
 switcheroo-control = { git = "https://github.com/Matrinsoft/dbus-settings-bindings" }
 zbus = { version = "5.13", default-features = false, features = ["tokio"] }
 
-# [patch.'https://github.com/Matrinsoft/libcosmic']
-# libcosmic = { git = "https://github.com/Matrinsoft/libcosmic//", branch = "theme-v2" }
-# cosmic-config = { git = "https://github.com/Matrinsoft/libcosmic//", branch = "theme-v2" }
-# cosmic-theme = { git = "https://github.com/Matrinsoft/libcosmic//", branch = "theme-v2" }
-# libcosmic = { path = "../libcosmic" }
+# [patch.'https://github.com/Matrinsoft/liblingmo']
+# liblingmo = { git = "https://github.com/Matrinsoft/liblingmo//", branch = "theme-v2" }
+# cosmic-config = { git = "https://github.com/Matrinsoft/liblingmo//", branch = "theme-v2" }
+# cosmic-theme = { git = "https://github.com/Matrinsoft/liblingmo//", branch = "theme-v2" }
+# liblingmo = { path = "../libcosmic" }
 # cosmic-config = { path = "../libcosmic/cosmic-config" }
 # cosmic-theme = { path = "../libcosmic/cosmic-theme" }

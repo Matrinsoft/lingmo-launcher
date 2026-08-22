@@ -2,48 +2,48 @@ use crate::app::iced::event::listen_raw;
 use crate::subscriptions::launcher;
 use crate::{components, fl};
 use clap::Parser;
-use cosmic::app::{Core, CosmicFlags, Settings, Task};
-use cosmic::cctk::sctk;
-use cosmic::cctk::sctk::shell::wlr_layer;
-use cosmic::dbus_activation::Details;
-use cosmic::iced::alignment::{Horizontal, Vertical};
-use cosmic::iced::core::text::{Ellipsize, EllipsizeHeightLimit};
-use cosmic::iced::event::Status;
-use cosmic::iced::event::wayland::OverlapNotifyEvent;
-use cosmic::iced::id::Id;
-use cosmic::iced::keyboard::key::Named;
-use cosmic::iced::platform_specific::runtime::wayland::{
+use lingmo::app::{Core, CosmicFlags, Settings, Task};
+use lingmo::cctk::sctk;
+use lingmo::cctk::sctk::shell::wlr_layer;
+use lingmo::dbus_activation::Details;
+use lingmo::iced::alignment::{Horizontal, Vertical};
+use lingmo::iced::core::text::{Ellipsize, EllipsizeHeightLimit};
+use lingmo::iced::event::Status;
+use lingmo::iced::event::wayland::OverlapNotifyEvent;
+use lingmo::iced::id::Id;
+use lingmo::iced::keyboard::key::Named;
+use lingmo::iced::platform_specific::runtime::wayland::{
     layer_surface::SctkLayerSurfaceSettings,
     popup::{SctkPopupSettings, SctkPositioner},
 };
-use cosmic::iced::platform_specific::shell::commands::layer_surface::set_padding;
-use cosmic::iced::platform_specific::shell::commands::{self};
-use cosmic::iced::platform_specific::shell::commands::{
+use lingmo::iced::platform_specific::shell::commands::layer_surface::set_padding;
+use lingmo::iced::platform_specific::shell::commands::{self};
+use lingmo::iced::platform_specific::shell::commands::{
     activation::request_token,
     layer_surface::{Anchor, KeyboardInteractivity, destroy_layer_surface, get_layer_surface},
 };
-use cosmic::iced::platform_specific::shell::wayland::commands::overlap_notify::overlap_notify;
-use cosmic::iced::runtime::core::event::wayland::{LayerEvent, OutputEvent};
-use cosmic::iced::runtime::core::event::{PlatformSpecific, wayland};
-use cosmic::iced::runtime::core::layout::Limits;
-use cosmic::iced::runtime::core::window::{Event as WindowEvent, Id as SurfaceId};
-use cosmic::iced::runtime::platform_specific::wayland::CornerRadius;
-use cosmic::iced::runtime::platform_specific::wayland::layer_surface::IcedMargin;
-use cosmic::iced::runtime::{Action, platform_specific, task};
-use cosmic::iced::widget::operation;
-use cosmic::iced::widget::row;
-use cosmic::iced::widget::scrollable::RelativeOffset;
-use cosmic::iced::widget::{Column, column, container};
-use cosmic::iced::{
+use lingmo::iced::platform_specific::shell::wayland::commands::overlap_notify::overlap_notify;
+use lingmo::iced::runtime::core::event::wayland::{LayerEvent, OutputEvent};
+use lingmo::iced::runtime::core::event::{PlatformSpecific, wayland};
+use lingmo::iced::runtime::core::layout::Limits;
+use lingmo::iced::runtime::core::window::{Event as WindowEvent, Id as SurfaceId};
+use lingmo::iced::runtime::platform_specific::wayland::CornerRadius;
+use lingmo::iced::runtime::platform_specific::wayland::layer_surface::IcedMargin;
+use lingmo::iced::runtime::{Action, platform_specific, task};
+use lingmo::iced::widget::operation;
+use lingmo::iced::widget::row;
+use lingmo::iced::widget::scrollable::RelativeOffset;
+use lingmo::iced::widget::{Column, column, container};
+use lingmo::iced::{
     self, Border, Length, Padding, Point, Rectangle, Shadow, Size, Subscription, window,
 };
-use cosmic::surface::action::{LiveSettings, app_layer_shell, simple_layer_shell};
-use cosmic::theme::{self, Button, Container};
-use cosmic::widget::icon::IconFallback;
-use cosmic::widget::space::{horizontal as horizontal_space, vertical as vertical_space};
-use cosmic::widget::text_input::{self, StyleSheet as TextInputStyleSheet};
-use cosmic::widget::{autosize, button, divider, icon, id_container, mouse_area, scrollable, text};
-use cosmic::{Element, keyboard_nav, surface};
+use lingmo::surface::action::{LiveSettings, app_layer_shell, simple_layer_shell};
+use lingmo::theme::{self, Button, Container};
+use lingmo::widget::icon::IconFallback;
+use lingmo::widget::space::{horizontal as horizontal_space, vertical as vertical_space};
+use lingmo::widget::text_input::{self, StyleSheet as TextInputStyleSheet};
+use lingmo::widget::{autosize, button, divider, icon, id_container, mouse_area, scrollable, text};
+use lingmo::{Element, keyboard_nav, surface};
 use iced::keyboard::{Key, Modifiers};
 use iced::{Alignment, Color};
 use pop_launcher::{ContextOption, GpuPreference, IconSource, SearchResult};
@@ -109,9 +109,9 @@ impl CosmicFlags for Args {
     }
 }
 
-pub fn run() -> cosmic::iced::Result {
+pub fn run() -> lingmo::iced::Result {
     let args = Args::parse();
-    cosmic::app::run_single_instance::<CosmicLauncher>(
+    lingmo::app::run_single_instance::<CosmicLauncher>(
         Settings::default()
             .antialiasing(true)
             .client_decorations(true)
@@ -126,7 +126,7 @@ pub fn run() -> cosmic::iced::Result {
 
 pub fn menu_button<'a, Message: Clone + 'a>(
     content: impl Into<Element<'a, Message>>,
-) -> cosmic::widget::Button<'a, Message> {
+) -> lingmo::widget::Button<'a, Message> {
     button::custom(content)
         .class(Button::AppletMenu)
         .padding(menu_control_padding())
@@ -134,7 +134,7 @@ pub fn menu_button<'a, Message: Clone + 'a>(
 }
 
 pub fn menu_control_padding() -> Padding {
-    let theme = cosmic::theme::active();
+    let theme = lingmo::theme::active();
     let cosmic = theme.cosmic();
     [cosmic.space_xxs(), cosmic.space_m()].into()
 }
@@ -152,7 +152,7 @@ pub struct CosmicLauncher {
     input_value: String,
     surface_state: SurfaceState,
     launcher_items: Vec<SearchResult>,
-    launcher_item_icon_handles: Vec<Option<cosmic::widget::icon::Handle>>,
+    launcher_item_icon_handles: Vec<Option<lingmo::widget::icon::Handle>>,
     tx: Option<mpsc::Sender<launcher::Request>>,
     menu: Option<(u32, Vec<ContextOption>)>,
     cursor_position: Option<Point<f32>>,
@@ -212,7 +212,7 @@ impl CosmicLauncher {
         let id = window::Id::unique();
         self.dummy_id = Some(id);
         Task::batch(vec![
-            cosmic::surface::surface_task(simple_layer_shell::<Message>(
+            lingmo::surface::surface_task(simple_layer_shell::<Message>(
                 || LiveSettings {
                     padding: Some(IcedMargin::default()),
                     corners: Some(CornerRadius::default()),
@@ -226,7 +226,7 @@ impl CosmicLauncher {
                         input_zone: Some(Vec::new()),
                         anchor: wlr_layer::Anchor::TOP,
                         output:
-                            cosmic::iced::runtime::platform_specific::wayland::layer_surface::IcedOutput::Active,
+                            lingmo::iced::runtime::platform_specific::wayland::layer_surface::IcedOutput::Active,
                         namespace: "cosmic_launcher_dummy".into(),
                         margin: IcedMargin::default(),
                         size: Some((Some(200), Some(200))),
@@ -234,7 +234,7 @@ impl CosmicLauncher {
                         size_limits: Limits::NONE,
                     }
                 },
-                None::<fn() -> Element<'static, cosmic::Action<Message>>>,
+                None::<fn() -> Element<'static, lingmo::Action<Message>>>,
             )),
             self.handle_overlap(),
             overlap_notify(id, true),
@@ -243,7 +243,7 @@ impl CosmicLauncher {
 
     fn show(&mut self) -> Task<Message> {
         self.surface_state = SurfaceState::Visible;
-        cosmic::surface::surface_task(app_layer_shell(
+        lingmo::surface::surface_task(app_layer_shell(
             |app: &CosmicLauncher| LiveSettings {
                 padding: Some(app.layer_padding()),
                 corners: None,
@@ -321,7 +321,7 @@ impl CosmicLauncher {
             if self.core.system_theme().cosmic().frosted_system_interface {
                 task::effect(Action::PlatformSpecific(
                     platform_specific::Action::Wayland(
-                        cosmic::iced::runtime::platform_specific::wayland::Action::BlurSurface(
+                        lingmo::iced::runtime::platform_specific::wayland::Action::BlurSurface(
                             self.window_id,
                             Some(vec![Rectangle {
                                 x: 0.,
@@ -335,7 +335,7 @@ impl CosmicLauncher {
             } else {
                 task::effect(Action::PlatformSpecific(
                     platform_specific::Action::Wayland(
-                        cosmic::iced::runtime::platform_specific::wayland::Action::BlurSurface(
+                        lingmo::iced::runtime::platform_specific::wayland::Action::BlurSurface(
                             self.window_id,
                             None,
                         ),
@@ -376,7 +376,7 @@ async fn launch(
         envs.extend(gpu_envs);
     }
 
-    cosmic::desktop::spawn_desktop_exec(exec, envs, Some(&app_id), terminal).await;
+    lingmo::desktop::spawn_desktop_exec(exec, envs, Some(&app_id), terminal).await;
 }
 
 async fn try_get_gpu_envs(gpu: GpuPreference) -> Option<HashMap<String, String>> {
@@ -393,14 +393,14 @@ async fn try_get_gpu_envs(gpu: GpuPreference) -> Option<HashMap<String, String>>
     .map(|gpu| gpu.environment)
 }
 
-impl cosmic::Application for CosmicLauncher {
+impl lingmo::Application for CosmicLauncher {
     type Message = Message;
-    type Executor = cosmic::executor::single::Executor;
+    type Executor = lingmo::executor::single::Executor;
     type Flags = Args;
     const APP_ID: &'static str = "com.system76.CosmicLauncher";
 
     fn init(mut core: Core, _flags: Args) -> (Self, Task<Message>) {
-        core.set_app_type(cosmic::core::AppType::System);
+        core.set_app_type(lingmo::core::AppType::System);
 
         core.set_keyboard_nav(false);
 
@@ -460,7 +460,7 @@ impl cosmic::Application for CosmicLauncher {
             Message::TabPress if !self.alt_tab => {
                 let focused = self.focused;
                 self.focused = 0;
-                return cosmic::task::message(cosmic::Action::App(
+                return lingmo::task::message(lingmo::Action::App(
                     Self::Message::CompleteFocusedId(self.result_ids[focused].clone()),
                 ));
             }
@@ -575,7 +575,7 @@ impl cosmic::Application for CosmicLauncher {
                         gpu_preference,
                         action_name,
                     } => {
-                        if let Some(entry) = cosmic::desktop::load_desktop_file(&[], path) {
+                        if let Some(entry) = lingmo::desktop::load_desktop_file(&[], path) {
                             let exec = if let Some(action_name) = action_name {
                                 entry
                                     .desktop_actions
@@ -594,7 +594,7 @@ impl cosmic::Application for CosmicLauncher {
                                 Some(self.window_id),
                             )
                             .map(move |token| {
-                                cosmic::Action::App(Message::ActivationToken(
+                                lingmo::Action::App(Message::ActivationToken(
                                     token,
                                     entry.id.to_string(),
                                     exec.clone(),
@@ -782,7 +782,7 @@ impl cosmic::Application for CosmicLauncher {
             }
             Message::ActivationToken(token, app_id, exec, dgpu, terminal) => {
                 return Task::perform(launch(token, app_id, exec, dgpu, terminal), |()| {
-                    cosmic::action::app(Message::Hide)
+                    lingmo::action::app(Message::Hide)
                 });
             }
             Message::AltTab => {
@@ -830,8 +830,8 @@ impl cosmic::Application for CosmicLauncher {
 
     fn dbus_activation(
         &mut self,
-        msg: cosmic::dbus_activation::Message,
-    ) -> iced::Task<cosmic::Action<Self::Message>> {
+        msg: lingmo::dbus_activation::Message,
+    ) -> iced::Task<lingmo::Action<Self::Message>> {
         match msg.msg {
             Details::Activate => {
                 if self.surface_state != SurfaceState::Hidden {
@@ -917,12 +917,12 @@ impl cosmic::Application for CosmicLauncher {
                 .on_paste(Message::InputChanged)
                 .on_submit(|_| Message::Activate(None))
                 .on_tab(Message::TabPress)
-                .style(cosmic::theme::TextInput::Custom {
-                    active: Box::new(|theme| theme.focused(&cosmic::theme::TextInput::Search)),
-                    error: Box::new(|theme| theme.focused(&cosmic::theme::TextInput::Search)),
-                    hovered: Box::new(|theme| theme.focused(&cosmic::theme::TextInput::Search)),
-                    focused: Box::new(|theme| theme.focused(&cosmic::theme::TextInput::Search)),
-                    disabled: Box::new(|theme| theme.disabled(&cosmic::theme::TextInput::Search)),
+                .style(lingmo::theme::TextInput::Custom {
+                    active: Box::new(|theme| theme.focused(&lingmo::theme::TextInput::Search)),
+                    error: Box::new(|theme| theme.focused(&lingmo::theme::TextInput::Search)),
+                    hovered: Box::new(|theme| theme.focused(&lingmo::theme::TextInput::Search)),
+                    focused: Box::new(|theme| theme.focused(&lingmo::theme::TextInput::Search)),
+                    disabled: Box::new(|theme| theme.disabled(&lingmo::theme::TextInput::Search)),
                 })
                 .width(600.)
                 .id(INPUT_ID.clone())
@@ -944,9 +944,9 @@ impl cosmic::Application for CosmicLauncher {
                             .ellipsize(Ellipsize::End(EllipsizeHeightLimit::Lines(1)))
                             .align_x(Horizontal::Left)
                             .align_y(Vertical::Center)
-                            .class(cosmic::theme::Text::Custom(|t| {
+                            .class(lingmo::theme::Text::Custom(|t| {
                                 let theme = t.cosmic();
-                                cosmic::iced::widget::text::Style {
+                                lingmo::iced::widget::text::Style {
                                     color: Some(theme.on_bg_color().into()),
                                     selected_fill: theme.accent_color().into(),
                                 }
@@ -961,7 +961,7 @@ impl cosmic::Application for CosmicLauncher {
                             .align_y(Vertical::Center)
                             .class(theme::Text::Custom(|t| {
                                 let theme = t.cosmic();
-                                cosmic::iced::widget::text::Style {
+                                lingmo::iced::widget::text::Style {
                                     color: Some(theme.on_bg_color().into()),
                                     selected_fill: theme.accent_color().into(),
                                 }
@@ -991,8 +991,8 @@ impl cosmic::Application for CosmicLauncher {
                             icon(icon_handle)
                                 .width(Length::Fixed(16.0))
                                 .height(Length::Fixed(16.0))
-                                .class(cosmic::theme::Svg::Custom(Rc::new(|theme| {
-                                    cosmic::iced::widget::svg::Style {
+                                .class(lingmo::theme::Svg::Custom(Rc::new(|theme| {
+                                    lingmo::iced::widget::svg::Style {
                                         color: Some(theme.cosmic().on_bg_color().into()),
                                     }
                                 })))
@@ -1017,7 +1017,7 @@ impl cosmic::Application for CosmicLauncher {
                                     .align_x(Horizontal::Right)
                                     .class(theme::Text::Custom(|t| {
                                         let theme = t.cosmic();
-                                        cosmic::iced::widget::text::Style {
+                                        lingmo::iced::widget::text::Style {
                                             color: Some(theme.on_bg_color().into()),
                                             selected_fill: theme.accent_color().into(),
                                         }
@@ -1032,7 +1032,7 @@ impl cosmic::Application for CosmicLauncher {
                     }
                     let is_focused = i == self.focused;
                     let btn = mouse_area(
-                        cosmic::widget::button::custom(
+                        lingmo::widget::button::custom(
                             row(button_content).spacing(8).align_y(Alignment::Center),
                         )
                         .id(self.result_ids[i].clone())
@@ -1220,27 +1220,27 @@ impl cosmic::Application for CosmicLauncher {
         Subscription::batch(vec![
             launcher::subscription(0).map(Message::LauncherEvent),
             listen_raw(|e, status, id| match e {
-                cosmic::iced::Event::PlatformSpecific(PlatformSpecific::Wayland(
+                lingmo::iced::Event::PlatformSpecific(PlatformSpecific::Wayland(
                     wayland::Event::Layer(e, _, layer_id),
                 )) => Some(Message::Layer(e, layer_id)),
-                cosmic::iced::Event::PlatformSpecific(PlatformSpecific::Wayland(
+                lingmo::iced::Event::PlatformSpecific(PlatformSpecific::Wayland(
                     wayland::Event::OverlapNotify(event, ..),
                 )) => Some(Message::Overlap(event)),
-                cosmic::iced::Event::PlatformSpecific(PlatformSpecific::Wayland(
+                lingmo::iced::Event::PlatformSpecific(PlatformSpecific::Wayland(
                     wayland::Event::Output(event, _),
                 )) => Some(Message::Output(event)),
-                cosmic::iced::Event::Keyboard(iced::keyboard::Event::KeyReleased {
+                lingmo::iced::Event::Keyboard(iced::keyboard::Event::KeyReleased {
                     key: Key::Named(Named::Alt | Named::Super | Named::Control),
                     ..
                 }) => Some(Message::AltRelease),
-                cosmic::iced::Event::Keyboard(iced::keyboard::Event::KeyReleased {
+                lingmo::iced::Event::Keyboard(iced::keyboard::Event::KeyReleased {
                     modifiers,
                     ..
                 }) if alt_tab_modifier_is_released(modifiers) => Some(Message::AltRelease),
-                cosmic::iced::Event::Keyboard(iced::keyboard::Event::ModifiersChanged(
+                lingmo::iced::Event::Keyboard(iced::keyboard::Event::ModifiersChanged(
                     modifiers,
                 )) if alt_tab_modifier_is_released(modifiers) => Some(Message::AltRelease),
-                cosmic::iced::Event::Keyboard(iced::keyboard::Event::KeyPressed {
+                lingmo::iced::Event::Keyboard(iced::keyboard::Event::KeyPressed {
                     key,
                     text: _,
                     modifiers,
@@ -1274,13 +1274,13 @@ impl cosmic::Application for CosmicLauncher {
                     }
                     _ => None,
                 },
-                cosmic::iced::Event::Mouse(iced::mouse::Event::CursorMoved { position }) => {
+                lingmo::iced::Event::Mouse(iced::mouse::Event::CursorMoved { position }) => {
                     Some(Message::CursorMoved(position))
                 }
-                cosmic::iced::Event::Window(WindowEvent::Opened { position: _, size }) => {
+                lingmo::iced::Event::Window(WindowEvent::Opened { position: _, size }) => {
                     Some(Message::Opened(size, id))
                 }
-                cosmic::iced::Event::Window(WindowEvent::Resized(s)) => {
+                lingmo::iced::Event::Window(WindowEvent::Resized(s)) => {
                     Some(Message::Opened(s, id))
                 }
                 _ => None,
