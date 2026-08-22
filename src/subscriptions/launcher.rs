@@ -1,6 +1,6 @@
-use lingmo::iced::futures::StreamExt;
-use lingmo::iced::runtime::futures::MaybeSend;
-use lingmo::iced::{Subscription, stream};
+use cosmic::iced::futures::StreamExt;
+use cosmic::iced::runtime::futures::MaybeSend;
+use cosmic::iced::{Subscription, stream};
 use futures::{SinkExt, Stream};
 use pop_launcher_service::{Args, IpcClient};
 use std::hash::Hash;
@@ -26,7 +26,7 @@ pub enum Event {
 
 pub fn subscription<I: 'static + Hash + Copy + Send + Sync>(
     id: I,
-) -> lingmo::iced::Subscription<Event> {
+) -> cosmic::iced::Subscription<Event> {
     Subscription::run_with(id, |_| {
         stream::channel(
             1,
