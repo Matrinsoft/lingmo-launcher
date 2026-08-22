@@ -18,7 +18,7 @@ i18n-embed = { version = "0.16", features = [
     "desktop-requester",
 ] }
 i18n-embed-fl = "0.10"
-libcosmic = { git = "https://github.com/Matrinsoft/libcosmic/", features = [
+libcosmic = { git = "https://github.com/Matrinsoft/liblingmo/", features = [
     "autosize",
     "dbus-config",
     "winit",
