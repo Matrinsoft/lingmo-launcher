@@ -21,4 +21,4 @@ Depends:
   ${misc:Depends},
   ${shlibs:Depends},
   pop-launcher,
-Description: Cosmic Launcher
+Description: Lingmo Launcher

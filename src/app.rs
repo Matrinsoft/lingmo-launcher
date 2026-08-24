@@ -111,7 +111,7 @@ impl CosmicFlags for Args {
 
 pub fn run() -> cosmic::iced::Result {
     let args = Args::parse();
-    cosmic::app::run_single_instance::<CosmicLauncher>(
+	cosmic::app::run_single_instance::<LingmoLauncher>(
         Settings::default()
             .antialiasing(true)
             .client_decorations(true)
@@ -147,7 +147,7 @@ pub enum SurfaceState {
 }
 
 #[derive(Clone)]
-pub struct CosmicLauncher {
+pub struct LingmoLauncher {
     core: Core,
     input_value: String,
     surface_state: SurfaceState,
@@ -195,7 +195,7 @@ pub enum Message {
     Overlap(OverlapNotifyEvent),
 }
 
-impl CosmicLauncher {
+impl LingmoLauncher {
     fn request(&self, r: launcher::Request) {
         debug!("request: {:?}", r);
         if let Some(tx) = &self.tx {
@@ -227,7 +227,7 @@ impl CosmicLauncher {
                         anchor: wlr_layer::Anchor::TOP,
                         output:
                             cosmic::iced::runtime::platform_specific::wayland::layer_surface::IcedOutput::Active,
-                        namespace: "cosmic_launcher_dummy".into(),
+			namespace: "lingmo_launcher_dummy".into(),
                         margin: IcedMargin::default(),
                         size: Some((Some(200), Some(200))),
                         exclusive_zone: -1,
@@ -244,12 +244,12 @@ impl CosmicLauncher {
     fn show(&mut self) -> Task<Message> {
         self.surface_state = SurfaceState::Visible;
         cosmic::surface::surface_task(app_layer_shell(
-            |app: &CosmicLauncher| LiveSettings {
+            |app: &LingmoLauncher| LiveSettings {
                 padding: Some(app.layer_padding()),
                 corners: None,
                 blur: None,
             },
-            move |app: &mut CosmicLauncher| SctkLayerSurfaceSettings {
+            move |app: &mut LingmoLauncher| SctkLayerSurfaceSettings {
                 id: app.window_id,
                 keyboard_interactivity: KeyboardInteractivity::Exclusive,
                 anchor: Anchor::TOP,
@@ -393,18 +393,18 @@ async fn try_get_gpu_envs(gpu: GpuPreference) -> Option<HashMap<String, String>>
     .map(|gpu| gpu.environment)
 }
 
-impl cosmic::Application for CosmicLauncher {
+impl cosmic::Application for LingmoLauncher {
     type Message = Message;
     type Executor = cosmic::executor::single::Executor;
     type Flags = Args;
-    const APP_ID: &'static str = "com.system76.CosmicLauncher";
+	const APP_ID: &'static str = "com.lingmoos.LingmoLauncher";
 
     fn init(mut core: Core, _flags: Args) -> (Self, Task<Message>) {
         core.set_app_type(cosmic::core::AppType::System);
 
         core.set_keyboard_nav(false);
 
-        let mut app = CosmicLauncher {
+        let mut app = LingmoLauncher {
             core,
             input_value: String::new(),
             surface_state: SurfaceState::Hidden,

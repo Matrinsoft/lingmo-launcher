@@ -1,5 +1,5 @@
 {
-  description = "Launcher for the COSMIC desktop environment";
+  description = "Launcher for the Lingmo desktop environment";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -52,15 +52,15 @@
         };
 
         cargoArtifacts = craneLib.buildDepsOnly pkgDef;
-        cosmic-launcher= craneLib.buildPackage (pkgDef // {
+        lingmo-launcher= craneLib.buildPackage (pkgDef // {
           inherit cargoArtifacts;
         });
       in {
         checks = {
-          inherit cosmic-launcher;
+          inherit lingmo-launcher;
         };
 
-        packages.default = cosmic-launcher.overrideAttrs (oldAttrs: rec {
+        packages.default = lingmo-launcher.overrideAttrs (oldAttrs: rec {
           buildPhase= ''
             just prefix=$out build-release
           '';
@@ -70,7 +70,7 @@
         });
 
         apps.default = flake-utils.lib.mkApp {
-          drv = cosmic-launcher;
+          drv = lingmo-launcher;
         };
 
         devShells.default = pkgs.mkShell rec {

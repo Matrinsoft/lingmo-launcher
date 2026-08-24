@@ -1,0 +1,35 @@
+[Desktop Entry]
+Name=Launcher
+Name[zh_CN]=启动器
+Name[ar]=المُشَغِّل
+Name[cs]=Spouštěč
+Name[hu]=Indító
+Name[pl]=Program startowy
+Name[pt]=Lançador
+Name[ru]=Панель запуска
+Name[sk]=Spúšťač Lingmo
+Name[sv]=Programstartare
+Name[it]=Launcher
+Comment=Lingmo Launcher
+Comment[zh_CN]=Lingmo 启动器
+Comment[ar]=مُشَغِّلُ Lingmo
+Comment[cs]=Spouštěč aplikací pro prostředí Lingmo
+Comment[hu]=Lingmo Indító
+Comment[pl]=Program startowy Lingmo
+Comment[pt]=Botão de inicialização do Lingmo
+Comment[ru]=Панель запуска Lingmo
+Comment[sk]=Spúšťač aplikácií pre prostredie Lingmo
+Comment[sv]=Lingmo Programstartare
+Comment[it]=Launcher Lingmo
+Type=Application
+Exec=lingmo-launcher
+Terminal=false
+Categories=Lingmo;
+# Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+Keywords=Lingmo;ICED;
+Keywords[ar]=Lingmo;آيسِد;
+# Translators: Do NOT translate or transliterate this text (this is an icon file name)!
+Icon=com.lingmoos.LingmoLauncher
+StartupNotify=true
+X-HostWaylandDisplay=true
+NoDisplay=true

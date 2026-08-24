@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 
-DESTDIR = debian/cosmic-launcher
+DESTDIR = debian/lingmo-launcher
 CLEAN ?= 1
 VENDOR ?= 1
 

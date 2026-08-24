@@ -1,5 +1,5 @@
-export NAME := 'cosmic-launcher'
-export APPID := 'com.system76.CosmicLauncher'
+export NAME := 'lingmo-launcher'
+export APPID := 'com.lingmoos.LingmoLauncher'
 
 rootdir := ''
 prefix := '/usr'

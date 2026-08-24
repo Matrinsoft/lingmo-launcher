@@ -1,10 +1,10 @@
-﻿# Cosmic Launcher
+﻿# Lingmo Launcher
 
 Layer Shell frontend for https://github.com/Matrinsoft/launcher. Currently the underlying protocol being used in the plugin for managing toplevels in wayland is defined [here](https://github.com/Matrinsoft/lingmo-protocols/blob/main/unstable/cosmic-toplevel-info-unstable-v1.xml) but it will be switched to use [wlr-foreign-toplevel-management](https://wayland.app/protocols/wlr-foreign-toplevel-management-unstable-v1) when it is ready.
 
 # Building
 
-Cosmic Launcher is set up to build a deb and a Nix flake, but it can be built using just.
+Lingmo Launcher is set up to build a deb and a Nix flake, but it can be built using just.
 
 Some Build Dependencies:
 ```
@@ -34,7 +34,7 @@ just vendor
 
 # Inside build chroot
 just build-vendored
-sudo just rootdir=debian/cosmic-launcher prefix=/usr install
+sudo just rootdir=debian/lingmo-launcher prefix=/usr install
 ```
 
 # Translators
@@ -45,4 +45,4 @@ Translation files may be found in the i18n directory. New translations may copy 
 
 ## Profiling async tasks with tokio-console
 
-To debug issues with asynchronous code, install [tokio-console](https://github.com/tokio-rs/console) and run it within a separate terminal. Then kill the **cosmic-launcher** process a couple times in quick succession to prevent **cosmic-session** from spawning it again. Then you can start **cosmic-launcher** with **tokio-console** support either by running `just tokio-console` from this repository to test code changes, or `env TOKIO_CONSOLE=1 cosmic-launcher` to enable it with the installed version of **cosmic-launcher**.
+To debug issues with asynchronous code, install [tokio-console](https://github.com/tokio-rs/console) and run it within a separate terminal. Then kill the **lingmo-launcher** process a couple times in quick succession to prevent **lingmo-session** from spawning it again. Then you can start **lingmo-launcher** with **tokio-console** support either by running `just tokio-console` from this repository to test code changes, or `env TOKIO_CONSOLE=1 lingmo-launcher` to enable it with the installed version of **lingmo-launcher**.

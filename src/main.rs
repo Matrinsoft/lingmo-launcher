@@ -14,8 +14,8 @@ fn main() -> cosmic::iced::Result {
     init_logging();
 
     info!(
-        "cosmic-launcher ({})",
-        <app::CosmicLauncher as cosmic::Application>::APP_ID
+        "lingmo-launcher ({})",
+        <app::LingmoLauncher as cosmic::Application>::APP_ID
     );
     info!("Version: {} ({})", VERSION, config::profile());
 
