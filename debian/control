@@ -20,5 +20,5 @@ Architecture: amd64 arm64
 Depends:
   ${misc:Depends},
   ${shlibs:Depends},
-  pop-launcher,
+  lingmo-launcher-service,
 Description: Lingmo Launcher
